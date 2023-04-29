@@ -42,89 +42,74 @@ class _InicioState extends State<Inicio> {
                                 alignment: Alignment.topCenter)),
                       ),
                     ),
-                    login(context),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                          color: Colors.white),
+                      margin: const EdgeInsets.only(top: 100.0),
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(children: <Widget>[
+                        const Text(
+                          "Bienvenido a Stay",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 60.0),
+                          child: const TextField(
+                            decoration: InputDecoration(
+                                hintText: "E-mail",
+                                filled: true,
+                                fillColor: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20.0),
+                          child: const TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                hintText: "Contraseña",
+                                filled: true,
+                                fillColor: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 30.0),
+                          child: TextButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              padding: const EdgeInsets.all(15.0),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/register');
+                            },
+                            child: const Text(
+                              'Iniciar Sesion',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20.0),
+                          child: const Text(
+                            "¿Olvidaste tu contraseña?",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        )
+                      ]),
+                    ),
                   ],
                 ))));
   }
-}
-
-Widget login(c) {
-  return Container(
-    width: MediaQuery.of(c).size.width,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40), color: Colors.white),
-    margin: const EdgeInsets.only(top: 100.0),
-    padding: const EdgeInsets.all(30.0),
-    child: Column(children: <Widget>[
-      bienvenido(),
-      campoEmail(),
-      campoPassword(),
-      botonIniciar(),
-      olvido()
-    ]),
-  );
-}
-
-Widget bienvenido() {
-  return const Text(
-    "Bienvenido a Stay",
-    style: TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      fontSize: 30,
-    ),
-  );
-}
-
-Widget campoEmail() {
-  return Container(
-    margin: const EdgeInsets.only(top: 60.0),
-    child: const TextField(
-      decoration: InputDecoration(
-          hintText: "E-mail", filled: true, fillColor: Colors.white),
-    ),
-  );
-}
-
-Widget campoPassword() {
-  return Container(
-    margin: const EdgeInsets.only(top: 20.0),
-    child: const TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-          hintText: "Contraseña", filled: true, fillColor: Colors.white),
-    ),
-  );
-}
-
-Widget botonIniciar() {
-  return Container(
-    margin: const EdgeInsets.only(top: 30.0),
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red,
-        padding: EdgeInsets.all(15.0),
-      ),
-      onPressed: () {},
-      child: const Text(
-        'Iniciar Sesion',
-        style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25.0),
-      ),
-    ),
-  );
-}
-
-Widget olvido() {
-  return Container(
-    margin: const EdgeInsets.only(top: 20.0),
-    child: const Text(
-      "¿Olvidaste tu contraseña?",
-      style: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-      ),
-    ),
-  );
 }

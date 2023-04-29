@@ -1,55 +1,67 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:stay/router/stay_router.dart' show AppRoutes;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int ind = 0;
+  _BottonNav? btnav;
+
+  @override
+  void initState() {
+    btnav = _BottonNav(currentIndex: (i) {
+      setState(() {
+        ind = i;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/fondo-brujula.jpg'),
-                fit: BoxFit.cover),
-          ),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 150.0,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset('assets/images/logo.png'),
-              ),
-              const Text(
-                '',
-                style: TextStyle(fontSize: 400),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  textStyle: const TextStyle(fontSize: 25),
-                  shape: BeveledRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  backgroundColor: Colors.red,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 80, vertical: 16),
-                ),
-                child: const Text('Iniciar sesion'),
-              ),
-              TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    '¿No tienes una cuenta? Registrate aqui',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ))
-            ],
-          ),
-        ),
-      ),
+    return Scaffold(
+      body: AppRoutes(index: ind).miPages(),
+      bottomNavigationBar: btnav,
     );
+  }
+}
+
+class _BottonNav extends StatefulWidget {
+  final Function currentIndex;
+  const _BottonNav({Key? key, required this.currentIndex}) : super(key: key);
+
+  @override
+  State<_BottonNav> createState() => _BottonNavState();
+}
+
+class _BottonNavState extends State<_BottonNav> {
+  int index = 0;
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+        backgroundColor: Colors.white,
+        currentIndex: index,
+        onTap: (int i) {
+          setState(() {
+            index = i;
+            widget.currentIndex(i);
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.orange,
+        iconSize: 25.0,
+        selectedFontSize: 14.0,
+        unselectedFontSize: 12.0,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        elevation: 0,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ]);
   }
 }
