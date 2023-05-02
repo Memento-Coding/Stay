@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 60),
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image:  AssetImage('assets/imagens/fondo.jpg',),
+                  image:  AssetImage('assets/images/fondo-brujula.jpg',),
                   fit: BoxFit.cover
                 ),
               ),
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                    height: 200,
                    width: MediaQuery.of(context).size.width,
-                   child: Image.asset('assets/imagens/logo.png'),
+                   child: Image.asset('assets/images/logo.png'),
                 
                           ),
                   Expanded(flex: 3, child: Text('',
