@@ -7,7 +7,7 @@ import 'package:stay/views/Welcome.dart';
 import 'package:stay/views/login.dart';
 
 class AppRoutes {
-  static const initialRoute = '/welcome';
+  static const initialRoute = '/register';
   final int index;
   const AppRoutes({required this.index});
 
@@ -18,9 +18,9 @@ class AppRoutes {
   static Map<String, Widget Function(BuildContext)> getRoutes() {
     Map<String, Widget Function(BuildContext)> appRoutes = {};
     appRoutes.addAll({
-      "/welcome": (BuildContext context) => WelcomeScreen(),
+      "/welcome": (BuildContext context) => const WelcomeScreen(),
       "/login": (BuildContext context) => const StayLogin(),
-      "/register":(BuildContext context) => const RegisterScreen(),
+      "/register":(BuildContext context) => const Register(),
       "/menu":(BuildContext context) => const Menu(),
     });
     for (final ruta in rutas) {
