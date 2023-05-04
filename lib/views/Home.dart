@@ -1,67 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:stay/router/stay_router.dart' show AppRoutes;
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
+ 
+void main() {
+  runApp(const Home());
 }
-
-class _HomeScreenState extends State<HomeScreen> {
-  int ind = 0;
-  _BottonNav? btnav;
-
-  @override
-  void initState() {
-    btnav = _BottonNav(currentIndex: (i) {
-      setState(() {
-        ind = i;
-      });
-    });
-    super.initState();
-  }
-
+ 
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+ 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AppRoutes(index: ind).miPages(),
-      bottomNavigationBar: btnav,
+    return const Scaffold(
+      body: Center(child: Text("Hola Pantalla Home")),
     );
-  }
-}
-
-class _BottonNav extends StatefulWidget {
-  final Function currentIndex;
-  const _BottonNav({Key? key, required this.currentIndex}) : super(key: key);
-
-  @override
-  State<_BottonNav> createState() => _BottonNavState();
-}
-
-class _BottonNavState extends State<_BottonNav> {
-  int index = 0;
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-        backgroundColor: Colors.white,
-        currentIndex: index,
-        onTap: (int i) {
-          setState(() {
-            index = i;
-            widget.currentIndex(i);
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.orange,
-        iconSize: 25.0,
-        selectedFontSize: 14.0,
-        unselectedFontSize: 12.0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        elevation: 0,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ]);
   }
 }

@@ -1,13 +1,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:stay/models/menu_ruta.dart';
-import 'package:stay/views/Menu.dart';
+import 'package:stay/views/Home.dart';
+import 'package:stay/views/HomeBar.dart';
+import 'package:stay/views/Place.dart';
+import 'package:stay/views/Profile.dart';
 import 'package:stay/views/Registration.dart';
 import 'package:stay/views/Welcome.dart';
 import 'package:stay/views/login.dart';
+import 'package:stay/views/updateProfile.dart';
 
 class AppRoutes {
-  static const initialRoute = '/register';
+  static const initialRoute = '/HomeBar';
   final int index;
   const AppRoutes({required this.index});
 
@@ -21,7 +25,8 @@ class AppRoutes {
       "/welcome": (BuildContext context) => const WelcomeScreen(),
       "/login": (BuildContext context) => const StayLogin(),
       "/register":(BuildContext context) => const Register(),
-      "/menu":(BuildContext context) => const Menu(),
+      "/HomeBar": (BuildContext context) => const HomeBar(),
+      "/update": (BuildContext context) => const UpdateProfile(),
     });
     for (final ruta in rutas) {
       appRoutes.addAll({
@@ -34,6 +39,9 @@ class AppRoutes {
 
   Widget miPages() {
     List<Widget> pages = [
+      const Home(),
+      const Place(),
+      const Profile(),
 
     ];
     return pages[index];

@@ -85,7 +85,7 @@ class _InicioState extends State<Inicio> {
                               padding: const EdgeInsets.all(15.0),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/register');
+                              Navigator.popAndPushNamed(context, '/register');
                             },
                             child: const Text(
                               'Iniciar Sesion',
