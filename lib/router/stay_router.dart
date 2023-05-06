@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stay/models/menu_ruta.dart';
 import 'package:stay/views/Home.dart';
 import 'package:stay/views/login.dart';
+import 'package:stay/views/register.dart';
 
 class AppRoutes {
   static const initialRoute = '/home';
@@ -17,10 +18,10 @@ class AppRoutes {
     Map<String, Widget Function(BuildContext)> appRoutes = {};
     appRoutes.addAll({
       "/home": (BuildContext context) => HomeScreen(),
-      "/login": (BuildContext context) => const StayLogin(),
+      "/login": (BuildContext context) => StayLogin(),
       //"/detalle": (BuildContext context) => const DetalleScreen(),
       //"/login": (BuildContext context) => const LoginScreen(),
-      //"/register": (BuildContext context) => const RegisterScreen(),
+      "/register": (BuildContext context) => const RegisterPage(),
     });
     for (final ruta in rutas) {
       appRoutes.addAll({
