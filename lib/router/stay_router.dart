@@ -5,9 +5,7 @@ import 'package:stay/views/Home.dart';
 import 'package:stay/views/HomeBar.dart';
 import 'package:stay/views/Place.dart';
 import 'package:stay/views/Profile.dart';
-import 'package:stay/views/Registration.dart';
 import 'package:stay/views/Welcome.dart';
-import 'package:stay/views/login.dart';
 import 'package:stay/views/updateProfile.dart';
 
 class AppRoutes {
@@ -23,8 +21,6 @@ class AppRoutes {
     Map<String, Widget Function(BuildContext)> appRoutes = {};
     appRoutes.addAll({
       "/welcome": (BuildContext context) => const WelcomeScreen(),
-      "/login": (BuildContext context) => const StayLogin(),
-      "/register":(BuildContext context) => const Register(),
       "/HomeBar": (BuildContext context) => const HomeBar(),
       "/update": (BuildContext context) => const UpdateProfile(),
     });
@@ -39,7 +35,7 @@ class AppRoutes {
 
   Widget miPages() {
     List<Widget> pages = [
-      const Home(),
+      Home(),
       const Place(),
       const Profile(),
 
