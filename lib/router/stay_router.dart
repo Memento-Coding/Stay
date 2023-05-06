@@ -7,6 +7,8 @@ import 'package:stay/views/Place.dart';
 import 'package:stay/views/Profile.dart';
 import 'package:stay/views/Welcome.dart';
 import 'package:stay/views/updateProfile.dart';
+import 'package:stay/views/login.dart';
+import 'package:stay/views/register.dart';
 
 class AppRoutes {
   static const initialRoute = '/HomeBar';
@@ -23,6 +25,8 @@ class AppRoutes {
       "/welcome": (BuildContext context) => const WelcomeScreen(),
       "/HomeBar": (BuildContext context) => const HomeBar(),
       "/update": (BuildContext context) => const UpdateProfile(),
+      "/login": (BuildContext context) => const Inicio(),
+      "/register": (BuildContext context) => const RegisterPage(),
     });
     for (final ruta in rutas) {
       appRoutes.addAll({

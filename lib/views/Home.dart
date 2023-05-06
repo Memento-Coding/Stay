@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stay/helpers/JwtService.dart';
- 
 
- 
+
+
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
   final JwtService _jwtService = JwtService.getInstance();
