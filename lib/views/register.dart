@@ -1,20 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:stay/router/stay_router.dart';
-import 'dart:async';
-import 'dart:convert';
-
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: "Registro",
-      home: Register(),
-    );
-  }
-}
+import 'package:stay/models/user.dart';
+import 'package:stay/viewsmodels/UserHttp.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -25,6 +11,10 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final nombre = TextEditingController();
+  final email = TextEditingController();
+  final passwrod = TextEditingController();
+  final writePasswrod = TextEditingController();
 
 
   @override
@@ -37,8 +27,8 @@ class _RegisterState extends State<Register> {
             Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.symmetric(vertical: 60),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(vertical: 60),
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/fondo-brujula.jpg'),
                       fit: BoxFit.cover)),
@@ -61,59 +51,79 @@ class _RegisterState extends State<Register> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+
+
+                        //CAMPO NOMBRE
                         TextFormField(
-                          decoration: InputDecoration(labelText: "Nombre:"),
-                          
+                          controller: nombre,
+                          decoration:
+                              const InputDecoration(labelText: "Nombre:"),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Este campo es obligatorio";
                             }
                           },
                         ),
-                        SizedBox(
+
+
+                        const SizedBox(
                           height: 40,
                         ),
+
+                        //CAMPO EMAIL
                         TextFormField(
-                          decoration: InputDecoration(labelText: "Email:"),
-                          
+                          keyboardType: TextInputType.emailAddress,
+                          controller: email,
+                          decoration: const InputDecoration(labelText: "Email:"),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Este campo es obligatorio";
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
+
+
+                        //CAMPO CONTRASEÑA
                         TextFormField(
-                          decoration: InputDecoration(labelText: "Contraseña:"),
+                          controller: passwrod,
+                          decoration: const InputDecoration(labelText: "Contraseña:"),
                           obscureText: true,
-                          
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Este campo es obligatorio";
                             }
                           },
                         ),
-                        SizedBox(
+
+
+                        const SizedBox(
                           height: 40,
                         ),
+                        //CAMPO CONFIRMAR CONTRASEÑA
                         TextFormField(
-                          decoration: InputDecoration(labelText: "Confirmar contraseña:"),
+                          controller: writePasswrod,
+                          decoration: const InputDecoration(
+                              labelText: "Confirmar contraseña:"),
                           obscureText: true,
-                          
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Este campo es obligatorio";
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         TextButton(
                             onPressed: () async {
-                              
+                              if(passwrod.text == writePasswrod.text){
+                                User user = User(password: passwrod.text, correoElectronico: email.text, nombreUsuario: nombre.text, rolId: 1);
+                                UserHttp userHttp = UserHttp();
+                                userHttp.registrarse(user);
+                              }                           
                             },
                             style: TextButton.styleFrom(
                                 backgroundColor: Colors.red,
@@ -123,7 +133,7 @@ class _RegisterState extends State<Register> {
                                     borderRadius: BorderRadius.circular(10))),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Text(
                                   "Registrarse",
                                   style: TextStyle(
@@ -133,7 +143,7 @@ class _RegisterState extends State<Register> {
                                 ),
                               ],
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                       ],

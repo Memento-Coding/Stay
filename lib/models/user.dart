@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 class User {
-    String imagen;
+    String? imagen;
     String correoElectronico;
     String nombreUsuario;
+    String password;
     int rolId;
 
     User({
-        required this.imagen,
+        this.imagen,
+        required this.password,
         required this.correoElectronico,
         required this.nombreUsuario,
         required this.rolId,
@@ -22,6 +24,7 @@ class User {
         correoElectronico: json["correo_electronico"],
         nombreUsuario: json["nombre_usuario"],
         rolId: json["rol_id"],
+        password: json["contrasenia"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -29,5 +32,6 @@ class User {
         "correo_electronico": correoElectronico,
         "nombre_usuario": nombreUsuario,
         "rol_id": rolId,
+        "contrasenia":password
     };
 }

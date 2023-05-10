@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
+import 'package:stay/viewsmodels/UserHttp.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
@@ -11,17 +11,13 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final storage = const FlutterSecureStorage();
+  UserHttp userHttp = UserHttp();
 
   final email = TextEditingController();
   final password = TextEditingController();
 
-  String em = '';
-  String pas = '';
-
-  // ignore: non_constant_identifier_names
-
-  void ingresar(email, pass) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +29,8 @@ class _InicioState extends State<Inicio> {
             Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.symmetric(vertical: 60),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(vertical: 60),
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/fondo-brujula.jpg'),
                       fit: BoxFit.cover)),
@@ -57,16 +53,17 @@ class _InicioState extends State<Inicio> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           "Bienvenido a Stay",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(labelText: "E-mail:"),
+                          decoration:
+                              const InputDecoration(labelText: "E-mail:"),
                           controller: email,
                           onChanged: (value) => {},
                           validator: (value) {
@@ -75,11 +72,12 @@ class _InicioState extends State<Inicio> {
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(labelText: "Contraseña:"),
+                          decoration:
+                              const InputDecoration(labelText: "Contraseña:"),
                           onChanged: (value) => {},
                           obscureText: true,
                           controller: password,
@@ -89,45 +87,14 @@ class _InicioState extends State<Inicio> {
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         ElevatedButton(
                             onPressed: () async {
-                              em = email.text;
-                              pas = password.text;
-                              print("Entro a la funcion");
-                              final url = Uri.parse(
-                                  'https://stay-back-production.up.railway.app/v1/login');
-                              final body = {
-                                "correo_electronico": em,
-                                "contrasenia": pas,
-                              };
-                              final response = await http.post(url,body: body);
-                              print(response.body);
-
-                              
-
-                              if (em != '' && pas != '') {
-                                //ingresar(em, pas);
-                              } else {
-                                // El inicio de sesión falló. Mostrar un mensaje de error.
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text('Inicio de sesión fallido'),
-                                    content: Text(
-                                        'El email o la contraseña son incorrectos.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
+                              await userHttp.iniciarSesion(context,storage,email.text, password.text);
+                              String token = await storage.read(key: 'jwt') ?? '';
+                              print(token);
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
@@ -137,7 +104,7 @@ class _InicioState extends State<Inicio> {
                                     borderRadius: BorderRadius.circular(10))),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Text(
                                   "Iniciar Sesión",
                                   style: TextStyle(
@@ -147,18 +114,18 @@ class _InicioState extends State<Inicio> {
                                 ),
                               ],
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text('¿No estas registrado?'),
+                            const Text('¿No estas registrado?'),
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pushNamed('/register');
                               },
-                              child: Text("Registrarse"),
+                              child: const Text("Registrarse"),
                             )
                           ],
                         )
@@ -228,7 +195,7 @@ Widget botonIniciar(c) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.red,
-      padding: EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(15.0),
     ),
     onPressed: () {
       Navigator.pushNamed(c, '/home');
