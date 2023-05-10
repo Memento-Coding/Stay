@@ -26,7 +26,7 @@ class RoundedButton extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: () {
-          user.imprimir();
+          //user.imprimir();
         },
         child: Text(
           buttonName,

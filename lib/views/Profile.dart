@@ -1,10 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:stay/helpers/JwtService.dart';
+import 'package:stay/models/user.dart';
 
 
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  final JwtService _jwtService = JwtService.getInstance();
+  String _payload = '';
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    // Obtener la información del payload cuando se carga la pantalla
+    _jwtService.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxOSwicm9sIjoiYWRtaW5pc3RyYWRvciIsIm5vbWJyZSI6InNveWVsQWRtaW4iLCJjb3JyZW9fZWxlY3Ryb25pY28iOiJzdWpldG9hZG1pbmlzdHJhZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY4MzY3ODUwOSwiZXhwIjoxNjgzNzAwMTA5fQ.Ick0KwOd5HKkBMGo-wSOgpskF17zqvzitDWSpCXciiQ');
+    //&Map<String, dynamic> payloadMap = _jwtService.getPayload();
+    setState(() {
+      //user = _jwtService.getUser();
+    });
+    //print(user?.correoElectronico);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +46,11 @@ class Profile extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Juan Hoyos',
+              user?.nombreUsuario ?? 'User',
               style: Theme.of(context).textTheme.headline4,
             ),
             Text(
-              'juanhoyos1347@gmail.com',
+              user?.correoElectronico ?? 'email',
               style: Theme.of(context).textTheme.bodyText2,
             ),
             const SizedBox(height: 20),
