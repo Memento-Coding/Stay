@@ -1,11 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:stay/models/menu_ruta.dart';
 import 'package:stay/views/Home.dart';
+import 'package:stay/views/HomeBar.dart';
+import 'package:stay/views/Place.dart';
+import 'package:stay/views/Profile.dart';
+import 'package:stay/views/Welcome.dart';
+import 'package:stay/views/updateProfile.dart';
 import 'package:stay/views/login.dart';
+import 'package:stay/views/register.dart';
 
 class AppRoutes {
-  static const initialRoute = '/home';
+  static const initialRoute = '/register';
   final int index;
   const AppRoutes({required this.index});
 
@@ -16,11 +21,11 @@ class AppRoutes {
   static Map<String, Widget Function(BuildContext)> getRoutes() {
     Map<String, Widget Function(BuildContext)> appRoutes = {};
     appRoutes.addAll({
-      "/home": (BuildContext context) => HomeScreen(),
-      "/login": (BuildContext context) => const StayLogin(),
-      //"/detalle": (BuildContext context) => const DetalleScreen(),
-      //"/login": (BuildContext context) => const LoginScreen(),
-      //"/register": (BuildContext context) => const RegisterScreen(),
+      "/welcome": (BuildContext context) => const WelcomeScreen(),
+      "/HomeBar": (BuildContext context) => const HomeBar(),
+      "/update": (BuildContext context) => const UpdateProfile(),
+      "/login": (BuildContext context) => const Inicio(),
+      "/register": (BuildContext context) => const Register(),
     });
     for (final ruta in rutas) {
       appRoutes.addAll({
@@ -30,13 +35,12 @@ class AppRoutes {
     return appRoutes;
   }
 
-  /*
   Widget miPages() {
     List<Widget> pages = [
-      const PrincipalScreen(),
-      const ProfileScreen(),
+      Home(),
+      const Place(),
+      const Profile(),
     ];
     return pages[index];
   }
-  */
 }
