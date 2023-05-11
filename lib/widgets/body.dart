@@ -1,16 +1,36 @@
-
-
 import 'dart:convert';
+import 'dart:html';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stay/widgets/homeBar.dart';
-import 'package:stay/widgets/title_with_morebtn.dart';
+import 'package:stay/components/homeBar.dart';
+import 'package:stay/components/title_with_morebtn.dart';
 import 'package:stay/models/gif.dart';
 
 import '../const.dart';
 import 'header_with_search.dart';
 import 'package:http/http.dart' as http;
+
+class Evento {
+  final String nombre;
+  final String descripcion;
+  final String fechaHora;
+
+  Evento({
+    required this.nombre,
+    required this.descripcion,
+    required this.fechaHora,
+  });
+
+  factory Evento.fromJson(Map<String, dynamic> json) {
+    return Evento(
+      nombre: json['nombre'],
+      descripcion: json['descripcion'],
+      fechaHora: json['fecha_hora'],
+    );
+  }
+}
 
 
 class Body extends StatefulWidget { 
@@ -20,35 +40,52 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
-  /*Future<List<Gif>> _listadoGifs;*/
-
-  Future<List<Gif>> _getGifs() async {
-    
-  var url = Uri.parse('https://api.giphy.com/v1/gifs/trending?api_key=K0vdGdOxPi12JhZ40GOzRnCrxJhrzGMZ&limit=25&rating=g');
-  var response = await http.get(url);
-     List<Gif> gifs = [];
-
-  String body = utf8.decode(response.bodyBytes);
-  final jsonData = jsonDecode(body);
-  for (var item in jsonData["data"]) {
-    gifs.add(Gif(item["title"], item["images"]["downsized"]["url"]));
-    
-    }
-    return gifs;
-
-  }
+  late String token;
+  String titulo = '';
+  String descripcion = '';
+  String fecha = '';
+  String responseData = '';
+  List<dynamic> nombre = [];
+  final storage = const FlutterSecureStorage();
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    _getGifs();
+    /*token = await storage.read(key: 'jwt') ?? '';*/
+    fetchData();
   }
 
-  @override
+
+  Future<void> fetchData() async {
+    final response = await http.get(
+      Uri.parse('https://stay-back-production.up.railway.app/v1/evento'),
+      headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxOSwicm9sX2lkIjo0LCJub21icmUiOiJzb3llbEFkbWluIiwiY29ycmVvX2VsZWN0cm9uaWNvIjoic3VqZXRvYWRtaW5pc3RyYWRvckBnbWFpbC5jb20iLCJmb3RvIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZG1ieWl6emNkL2ltYWdlL3VwbG9hZC92MTY4MzYwMjc2My9qbDcyMTk1b2tzcHpuc2Zzc2RreC5qcGciLCJpYXQiOjE2ODM3NzYzNzIsImV4cCI6MTY4Mzc5Nzk3Mn0.lcOa4tIRYiHHV09yDjeJ8g__TpGkGrMBwsHHNe35Fqo', 'Content-Type': 'application/json; charset=UTF-8'},
+
+    );
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      print("d");
+      final data = jsonDecode(response.body);
+      print(data);
+
+      setState(() {
+        nombre=data;
+      });
+      print(response);
+    } else {
+      setState(() {
+        responseData = 'Error al cargar los datos de la API';
+      });
+    }
+  }
+
+
+ @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+    print(titulo);
+    print(descripcion);
     return Center(
       child:Container(
         child: SingleChildScrollView(
@@ -62,41 +99,25 @@ class _BodyState extends State<Body> {
           
           Column(
             children: [
-              RecomendadeEventCard(
-                image:"assets/imagens/fiesta.jpg" ,
-                title: "Evento eletronica",
-                date: "05/6/23",
-                price: 5900,
-                press: (){},
+              Expanded(child: ListView.builder(
+                itemCount: nombre.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final data = nombre[index];
+                  return RecomendadeEventCard(
+                    title: data["nombre"],
+                    description:data["descripcion"],
+                    date:data["fecha_hora"],
+                    /*price: precio,*/
+                    press: (){},
 
-              ),
-              RecomendadeEventCard(
-                image:"assets/imagens/soccer.jpg" ,
-                title: "Partido de futbol",
-                date: "12/6/23",
-                price: 5000,
-                press: (){},
+                  );
 
-              ),
-              RecomendadeEventCard(
-                image:"assets/imagens/picina.jpg" ,
-                title: "Fiesta en picina",
-                date: "15/6/23",
-                price: 10000,
-                press: (){},
-
-              ),
-              RecomendadeEventCard(
-                image:"assets/imagens/cicla.jpg" ,
-                title: "Ciclismo",
-                date: "14/4/23",
-                price: 15000,
-                press: (){},
-
-              ),
+                },
+              ),)
               
               
             ],
+
           
           ),
             ],
@@ -116,18 +137,29 @@ class _BodyState extends State<Body> {
   }
 }
 
+
+
+
+
+
+
+
+
+
 class RecomendadeEventCard extends StatelessWidget {
   const RecomendadeEventCard({
-    Key? key, required this.image,
+    Key? key, 
+     
      required this.title,
+     required this.description,
      required this.date,
-     required this.price,
+     /*required this.price,*/
      required this.press,
   
   }) : super(key: key);
 
-  final String image,title,date;
-  final int price;
+  final String title,date,description;
+  /*final int price;*/
   final Function press;
 
 
@@ -140,7 +172,7 @@ class RecomendadeEventCard extends StatelessWidget {
       width: size.width * 0.5,
       child: Column(
         children: [
-          Image.asset(image),
+       
           GestureDetector(
             onTap: press(),
             child: Container(
@@ -160,7 +192,7 @@ class RecomendadeEventCard extends StatelessWidget {
                  ),
                 ],
               ),
-              child: Row(
+              child: Column(
                 children: [
                   RichText(text: TextSpan(
                     children: [
@@ -169,18 +201,24 @@ class RecomendadeEventCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.button
                         ),
                       TextSpan(
+                          text: "$description\n" ,
+                          style: TextStyle(
+                            color: Colors.red
+                          ),
+                        ),
+                        TextSpan(
                           text: "$date\n" ,
                           style: TextStyle(
                             color: Colors.red
                           ),
                         ),
           
-                      TextSpan(
+                      /*TextSpan(
                       text: "\$$price" ,
                           style: TextStyle(
                             color: Colors.blue
                           ),
-                        ),
+                        ),*/
                     ],
                   
           
@@ -204,6 +242,5 @@ class RecomendadeEventCard extends StatelessWidget {
     );
   }
 }
-
 
 
