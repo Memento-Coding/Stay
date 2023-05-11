@@ -10,7 +10,7 @@ import 'package:stay/views/login.dart';
 import 'package:stay/views/register.dart';
 
 class AppRoutes {
-  static const initialRoute = '/register';
+  static const initialRoute = '/HomeBar';
   final int index;
   const AppRoutes({required this.index});
 
@@ -38,7 +38,7 @@ class AppRoutes {
   Widget miPages() {
     List<Widget> pages = [
       Home(),
-      const Place(),
+      Place(),
       const Profile(),
     ];
     return pages[index];
