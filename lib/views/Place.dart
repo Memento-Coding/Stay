@@ -81,12 +81,38 @@ class Place extends StatelessWidget {
                                         itemSize: 40,
                                         allowHalfRating: true,
                                         itemBuilder: (context,_) {
-                                          return Icon(Icons.star);
+                                          return Icon(Icons.star, color: Colors.amber,);
                                         },
                                       onRatingUpdate: (rating) {
                                         print(rating);
                                       },
                                   ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Center(
+                                child: Container(
+                                  child: ElevatedButton(
+                                    onPressed: (){},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      padding: const EdgeInsets.symmetric(vertical: 15),
+                                      shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))), 
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const <Widget>[
+                                        Text(
+                                          "¿Como llegar?",
+                                          style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25.0),
+                                ),
+                              ],
+                            )),
                                 ),
                               ),
                               SizedBox(
