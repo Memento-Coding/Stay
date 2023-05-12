@@ -15,6 +15,7 @@ class _RegisterState extends State<Register> {
   final email = TextEditingController();
   final passwrod = TextEditingController();
   final writePasswrod = TextEditingController();
+  UserHttp userHttp = UserHttp();
 
 
   @override
@@ -121,8 +122,7 @@ class _RegisterState extends State<Register> {
                             onPressed: () async {
                               if(passwrod.text == writePasswrod.text){
                                 User user = User(password: passwrod.text, correoElectronico: email.text, nombreUsuario: nombre.text, rolId: 1);
-                                UserHttp userHttp = UserHttp();
-                                userHttp.registrarse(user);
+                                userHttp.registrarse(context,user);
                               }                           
                             },
                             style: TextButton.styleFrom(

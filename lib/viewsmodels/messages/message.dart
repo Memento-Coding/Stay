@@ -36,4 +36,17 @@ class Message {
       },
     );
   }
+
+  Future<void> registrarExitoso(
+      BuildContext context, String messageTitle, String messageContent) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(messageTitle),
+          content: Text(messageContent),
+        );
+      },
+    );
+  }
 }
