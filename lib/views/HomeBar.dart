@@ -35,7 +35,7 @@ class _HomeBarState extends State<HomeBar> {
             padding: const EdgeInsets.all(16),
             tabs: const [
               GButton(icon: Icons.home,text: 'Home',),
-              GButton(icon: Icons.favorite_border,text: 'Like',),
+              //GButton(icon: Icons.favorite_border,text: 'Like',),
               GButton(icon: Icons.person,text: 'Profile',)
             ],
             onTabChange: (index){
