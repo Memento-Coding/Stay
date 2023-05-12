@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stay/models/SitioTuristico.dart';
  
 void main() {
   runApp(const Place());
@@ -9,8 +10,9 @@ class Place extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Hola Pantalla Place")),
+    final argumento = ModalRoute.of(context)?.settings.arguments as SitioTuristico;
+    return Scaffold(
+      body: Center(child: Text("Hola ${argumento.nombre}")),
     );
   }
 }
