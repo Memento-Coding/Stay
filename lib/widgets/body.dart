@@ -1,16 +1,12 @@
 import 'dart:convert';
-import 'dart:html';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stay/components/homeBar.dart';
-import 'package:stay/components/title_with_morebtn.dart';
-import 'package:stay/models/gif.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:stay/components/header_with_search.dart';
 
 import '../const.dart';
-import 'header_with_search.dart';
-import 'package:http/http.dart' as http;
+
+
 
 class Evento {
   final String nombre;
@@ -32,8 +28,8 @@ class Evento {
   }
 }
 
-
-class Body extends StatefulWidget { 
+class Body extends StatefulWidget {
+  const Body({super.key});
 
   @override
   State<Body> createState() => _BodyState();
@@ -62,12 +58,9 @@ class _BodyState extends State<Body> {
       headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxOSwicm9sX2lkIjo0LCJub21icmUiOiJzb3llbEFkbWluIiwiY29ycmVvX2VsZWN0cm9uaWNvIjoic3VqZXRvYWRtaW5pc3RyYWRvckBnbWFpbC5jb20iLCJmb3RvIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZG1ieWl6emNkL2ltYWdlL3VwbG9hZC92MTY4MzYwMjc2My9qbDcyMTk1b2tzcHpuc2Zzc2RreC5qcGciLCJpYXQiOjE2ODM3NzYzNzIsImV4cCI6MTY4Mzc5Nzk3Mn0.lcOa4tIRYiHHV09yDjeJ8g__TpGkGrMBwsHHNe35Fqo', 'Content-Type': 'application/json; charset=UTF-8'},
 
     );
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
-      print("d");
       final data = jsonDecode(response.body);
-      print(data);
 
       setState(() {
         nombre=data;
@@ -79,70 +72,81 @@ class _BodyState extends State<Body> {
       });
     }
   }
-
-
- @override
+  @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    print(titulo);
-    print(descripcion);
-    return Center(
-      child:Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              HeaderWithSearchBox(size: size),
-          TittleWithMorebtn(
-            title: "Recomendaciones",
-            press: (){},
-          ),
+
+    return ListView(
+      
+      children: [
+        Stack(
           
-          Column(
-            children: [
-              Expanded(child: ListView.builder(
-                itemCount: nombre.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final data = nombre[index];
-                  return RecomendadeEventCard(
-                    title: data["nombre"],
-                    description:data["descripcion"],
-                    date:data["fecha_hora"],
-                    /*price: precio,*/
-                    press: (){},
+          children: [
+            Container(
+              width: double.infinity,
+              height: 300.0,
+              padding: const EdgeInsets.symmetric(vertical: 60),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/imagens/fondo.jpg'),
+                    fit: BoxFit.cover)
+                    ),
 
-                  );
-
-                },
-              ),)
-              
-              
-            ],
-
-          
-          ),
-            ],
-          ),
-
+                ),
+            HeaderWithSearchBox(size: MediaQuery.of(context).size),
+          ],
+            
         ),
-    
-    
-      ),
-    
-      
-    
-      
+
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              // Otros widgets aquí arriba si los necesitas
+
+              // ListView.builder
+            ListView.builder(
+              shrinkWrap: true, // Ajusta el tamaño del ListView automáticamente
+              physics: NeverScrollableScrollPhysics(), // Desactiva el desplazamiento del ListView
+              itemCount: nombre.length,
+                        itemBuilder: (context, index) {
+                          final evento = nombre[index];
+                          return RecomendadeEventCard(
+                            title: evento["nombre"],
+                            description:evento["descripcion"],
+                            date:evento["fecha_hora"],
+                                    /*price: precio,*/
+                            press: (){},
+                          );
+              },
+            ),
+
+      // Otros widgets aquí abajo si los necesitas
+    ],
+  ),
+)
+
+
+      ],
+
     );
-    
-    
+    /*return Container(
+      child: ListView.builder(
+        
+        itemCount: nombre.length,
+          itemBuilder: (context, index) {
+            final evento = nombre[index];
+            return RecomendadeEventCard(
+              title: evento["nombre"],
+              description:evento["descripcion"],
+              date:evento["fecha_hora"],
+                      /*price: precio,*/
+              press: (){},
+              
+            );
+          },
+       ),
+    );*/
   }
 }
-
-
-
-
-
-
-
 
 
 
@@ -242,5 +246,6 @@ class RecomendadeEventCard extends StatelessWidget {
     );
   }
 }
+
 
 
