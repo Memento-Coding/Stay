@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stay/helpers/JwtService.dart';
@@ -6,6 +6,8 @@ import 'package:stay/models/user.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+
+import 'package:stay/models/SitioTuristico.dart';
 void main() {
   runApp(Place());
 }
@@ -17,6 +19,7 @@ class Place extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final argumento = ModalRoute.of(context)?.settings.arguments as SitioTuristico;
     return Scaffold(
       body: ListView(
         children: <Widget>[

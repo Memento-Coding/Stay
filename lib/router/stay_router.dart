@@ -26,6 +26,7 @@ class AppRoutes {
       "/update": (BuildContext context) => const UpdateProfile(),
       "/login": (BuildContext context) => const Inicio(),
       "/register": (BuildContext context) => const Register(),
+      "/place": (BuildContext context) => const Place(),
     });
     for (final ruta in rutas) {
       appRoutes.addAll({
@@ -38,7 +39,6 @@ class AppRoutes {
   Widget miPages() {
     List<Widget> pages = [
       Home(),
-      Place(),
       const Profile(),
     ];
     return pages[index];
