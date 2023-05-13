@@ -21,12 +21,12 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     // Obtener la información del payload cuando se carga la pantalla
-    _jwtService.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxOSwicm9sIjoiYWRtaW5pc3RyYWRvciIsIm5vbWJyZSI6InNveWVsQWRtaW4iLCJjb3JyZW9fZWxlY3Ryb25pY28iOiJzdWpldG9hZG1pbmlzdHJhZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY4MzY3ODUwOSwiZXhwIjoxNjgzNzAwMTA5fQ.Ick0KwOd5HKkBMGo-wSOgpskF17zqvzitDWSpCXciiQ');
-    //&Map<String, dynamic> payloadMap = _jwtService.getPayload();
+    _jwtService.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxOSwicm9sX2lkIjo0LCJub21icmUiOiJzb3llbEFkbWluIiwiY29ycmVvX2VsZWN0cm9uaWNvIjoic3VqZXRvYWRtaW5pc3RyYWRvckBnbWFpbC5jb20iLCJmb3RvIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZG1ieWl6emNkL2ltYWdlL3VwbG9hZC92MTY4Mzk0ODkyOS9yaDNsanlzeHdheTRtdnpnbGJwei5qcGciLCJpYXQiOjE2ODM5ODQxNDQsImV4cCI6MTY4NDAwNTc0NH0.odzwtq6ZJCsWh8oyRbIvOBzQEk6TkvxcyxmhCdPSyLk');
+    Map<String, dynamic> payloadMap = _jwtService.getPayload();
     setState(() {
-      //user = _jwtService.getUser();
+      user = _jwtService.getUser();
     });
-    //print(user?.correoElectronico);
+    print(user?.correoElectronico);
   }
 
   @override
