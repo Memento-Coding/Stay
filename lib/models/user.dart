@@ -4,12 +4,14 @@ class User {
     String? imagen;
     String correoElectronico;
     String nombreUsuario;
-    String password;
+    String? password;
     int rolId;
+    int? id;
 
     User({
         this.imagen,
-        required this.password,
+        this.id,
+        this.password,
         required this.correoElectronico,
         required this.nombreUsuario,
         required this.rolId,
@@ -20,11 +22,11 @@ class User {
     String toRawJson() => json.encode(toJson());
 
     factory User.fromJson(Map<String, dynamic> json) => User(
-        imagen: json["imagen"],
-        correoElectronico: json["correo_electronico"],
-        nombreUsuario: json["nombre_usuario"],
+        id: json['usuario_id'],
         rolId: json["rol_id"],
-        password: json["contrasenia"]
+        nombreUsuario: json["nombre"],
+        correoElectronico: json["correo_electronico"],
+        imagen: json["foto"],     
     );
 
     Map<String, dynamic> toJson() => {

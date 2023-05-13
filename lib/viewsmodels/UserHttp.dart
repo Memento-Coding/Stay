@@ -27,7 +27,7 @@ class UserHttp {
     Map<String, dynamic> map = Map<String, dynamic>.from(jsonDecode(response.body));
     final token = map["token"];
     if (response.statusCode == 200) {
-      await storage.write(key: 'jwt', value: token);
+      await storage.write(key: 'jwt', value: token ?? " ");
       Navigator.of(context).popAndPushNamed("/HomeBar");
     }else if(response.statusCode == 401){
       msge.mostrarMensaje(context, "Inicio de sesión fallido", "El email o la contraseña son incorrectos.");
