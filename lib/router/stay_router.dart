@@ -26,7 +26,7 @@ class AppRoutes {
       "/update": (BuildContext context) => const UpdateProfile(),
       "/login": (BuildContext context) => const Inicio(),
       "/register": (BuildContext context) => const Register(),
-      "/place": (BuildContext context) => const Place(),
+      "/place": (BuildContext context) => Place(),
     });
     for (final ruta in rutas) {
       appRoutes.addAll({

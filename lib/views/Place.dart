@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stay/helpers/JwtService.dart';
@@ -6,8 +5,8 @@ import 'package:stay/models/user.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-
 import 'package:stay/models/SitioTuristico.dart';
+
 void main() {
   runApp(Place());
 }
@@ -15,12 +14,20 @@ void main() {
 class Place extends StatelessWidget {
   Place({Key? key}) : super(key: key);
 
-  List<String> images = ["https://via.placeholder.com/350x150"];
-
   @override
   Widget build(BuildContext context) {
-    final argumento = ModalRoute.of(context)?.settings.arguments as SitioTuristico;
+    final argumento =
+        ModalRoute.of(context)?.settings.arguments as SitioTuristico;
+    List<String> images = [argumento.foto];
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.arrow_back_ios),),
+      ),
       body: ListView(
         children: <Widget>[
           Container(
@@ -61,34 +68,41 @@ class Place extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Center(
-                                child: Text('Titulo', style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,)),
+                                child: Text(argumento.nombre,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    )),
                               ),
                               SizedBox(
                                 height: 25,
                               ),
                               Center(
-                                child: Text('"El Picacho" también podría albergar algún tipo de atracción o punto de referencia, como una estatua, una cruz, una capilla u otro elemento distintivo en su cima o cerca de ella.', style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,)),
+                                child: Text(argumento.descripcion,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    )),
                               ),
                               SizedBox(
                                 height: 20,
                               ),
                               Center(
                                 child: Container(
-                                      child: RatingBar.builder(
-                                        itemCount: 5,
-                                        initialRating: 3,
-                                        itemSize: 40,
-                                        allowHalfRating: true,
-                                        itemBuilder: (context,_) {
-                                          return Icon(Icons.star, color: Colors.amber,);
-                                        },
-                                      onRatingUpdate: (rating) {
-                                        print(rating);
-                                      },
+                                  child: RatingBar.builder(
+                                    itemCount: 5,
+                                    initialRating: 3,
+                                    itemSize: 40,
+                                    allowHalfRating: true,
+                                    itemBuilder: (context, _) {
+                                      return Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      );
+                                    },
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
                                   ),
                                 ),
                               ),
@@ -98,24 +112,27 @@ class Place extends StatelessWidget {
                               Center(
                                 child: Container(
                                   child: ElevatedButton(
-                                    onPressed: (){},
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                      padding: const EdgeInsets.symmetric(vertical: 15),
-                                      shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10))), 
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: const <Widget>[
-                                        Text(
-                                          "¿Como llegar?",
-                                          style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 25.0),
-                                ),
-                              ],
-                            )),
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 15),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: const <Widget>[
+                                          Text(
+                                            "¿Como llegar?",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25.0),
+                                          ),
+                                        ],
+                                      )),
                                 ),
                               ),
                               SizedBox(
@@ -125,10 +142,12 @@ class Place extends StatelessWidget {
                                 child: Container(
                                   child: const TextField(
                                     decoration: InputDecoration(
-                                      hintText: "Agregar Comentario",
-                                      border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)), 
-                                      filled: true, 
-                                      fillColor: Colors.white),
+                                        hintText: "Agregar Comentario",
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.black)),
+                                        filled: true,
+                                        fillColor: Colors.white),
                                   ),
                                 ),
                               )
