@@ -43,7 +43,6 @@ class _PlaceState extends State<Place> {
       },
     );
     final data = jsonDecode(response.body);
-    print(data);
     for (int i = 0; i < data.length; i++) {
       lista.add(Comentario(
           comentarioId: data[i]["comentario_id"],
@@ -54,7 +53,6 @@ class _PlaceState extends State<Place> {
     }
     setState(() {
       ListaComentarios = [...lista];
-      print(ListaComentarios);
     });
   }
 
@@ -207,13 +205,15 @@ class _PlaceState extends State<Place> {
                           itemCount: ListaComentarios.length,
                           itemBuilder: (context, index) {
                             final comentario = ListaComentarios[index];
-                            return RecomendadeEventCard(
+                              return RecomendadeEventCard(
                               id: comentario.comentarioId,
                               description: comentario.descripcion,
                               date: comentario.fechaPublicacion,
                               place: comentario.sitioId,
                               user: comentario.userId,
                             );
+                            
+                            
                           },
                         ),
                       ],
@@ -265,7 +265,7 @@ class RecomendadeEventCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
-                          height: 150,
+                          height: double.minPositive,
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(15.0),
