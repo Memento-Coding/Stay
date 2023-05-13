@@ -43,16 +43,18 @@ class _PlaceState extends State<Place> {
       },
     );
     final data = jsonDecode(response.body);
+    print(data);
     for (int i = 0; i < data.length; i++) {
       lista.add(Comentario(
           comentarioId: data[i]["comentario_id"],
           descripcion: data[i]["descripcion"],
           fechaPublicacion: data[i]["fecha_publicacion"],
-          sitioId: data[i]["sitio_id"],
-          userId: data[i]["user_id"]));
+          sitioId: data[i]["sitio_turistico_id"],
+          userId: data[i]["usuario_id"]));
     }
     setState(() {
       ListaComentarios = [...lista];
+      print(ListaComentarios);
     });
   }
 
@@ -205,7 +207,6 @@ class _PlaceState extends State<Place> {
                           itemCount: ListaComentarios.length,
                           itemBuilder: (context, index) {
                             final comentario = ListaComentarios[index];
-                            print(comentario);
                             return RecomendadeEventCard(
                               id: comentario.comentarioId,
                               description: comentario.descripcion,

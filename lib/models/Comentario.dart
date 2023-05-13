@@ -23,15 +23,15 @@ class Comentario {
       comentarioId: json["comentario_id"],
       descripcion: json["descripcion"],
       fechaPublicacion: json["fecha_publicacion"],
-      sitioId: json["sitio_id"],
-      userId: json["user_id"]);
+      sitioId: json["sitio_turistico_id"],
+      userId: json["usuario_id"]);
 
   Map<String, dynamic> toJson() => {
     "comentario_id": comentarioId,
     "descripcion": descripcion,
     "fecha_publicacion": fechaPublicacion,
-    "sitio_id": sitioId,
-    "user_id": userId
+    "sitio_turistico_id": sitioId,
+    "usuario_id": userId
 
   };
 

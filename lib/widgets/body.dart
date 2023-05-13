@@ -30,6 +30,7 @@ class _BodyState extends State<Body> {
     super.initState();
     //fetchData();
     getSitiosTuristicos();
+    
   }
 
   Future<void> getSitiosTuristicos() async {
@@ -54,6 +55,7 @@ class _BodyState extends State<Body> {
     setState(() {
       listaSitios = [...lista];
     });
+    print(listaSitios);
   }
 
   @override
@@ -84,7 +86,7 @@ class _BodyState extends State<Body> {
                 itemBuilder: (context, index) {
                   final sitio = listaSitios[index];
                   return RecomendadeEventCard(
-                    id:sitio.sitioTuristicoId,
+                    id: sitio.sitioTuristicoId,
                     title: sitio.nombre,
                     description: sitio.descripcion,
                     date: sitio.ubicacion,
@@ -101,16 +103,16 @@ class _BodyState extends State<Body> {
 }
 
 class RecomendadeEventCard extends StatelessWidget {
-  const RecomendadeEventCard({
-    Key? key,
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.date,
-    required this.image
-  }) : super(key: key);
+  const RecomendadeEventCard(
+      {Key? key,
+      required this.id,
+      required this.title,
+      required this.description,
+      required this.date,
+      required this.image})
+      : super(key: key);
 
-  final String title, date, description,image;
+  final String title, date, description, image;
   final int id;
 
   @override
@@ -127,13 +129,13 @@ class RecomendadeEventCard extends StatelessWidget {
           GestureDetector(
             onTap: () {
               //SitioTuristico sitioTuristico = SitioTuristico(sitioTuristicoId: 1, nombre: title, descripcion: description, ubicacion: date, foto: "");
-              Navigator.pushNamed(context,'/place',arguments: 
-              SitioTuristico(
-                sitioTuristicoId: 1, 
-                nombre: title,
-                descripcion: description, 
-                ubicacion: date,
-                foto: image));
+              Navigator.pushNamed(context, '/place',
+                  arguments: SitioTuristico(
+                      sitioTuristicoId: 1,
+                      nombre: title,
+                      descripcion: description,
+                      ubicacion: date,
+                      foto: image));
             },
             child: Container(
               padding: const EdgeInsets.all(kDefaultPadding / 2),
