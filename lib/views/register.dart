@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:stay/models/user.dart';
 import 'package:stay/viewsmodels/UserHttp.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
-class Inicio extends StatefulWidget {
-  const Inicio({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Inicio> createState() => _InicioState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _InicioState extends State<Inicio> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  final storage = const FlutterSecureStorage();
-  UserHttp userHttp = UserHttp();
-
+class _RegisterState extends State<Register> {
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final nombre = TextEditingController();
   final email = TextEditingController();
-  final password = TextEditingController();
+  final passwrod = TextEditingController();
+  final writePasswrod = TextEditingController();
+  UserHttp userHttp = UserHttp();
 
 
   @override
@@ -53,19 +52,30 @@ class _InicioState extends State<Inicio> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const Text(
-                          "Bienvenido a Stay",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30),
+
+
+                        //CAMPO NOMBRE
+                        TextFormField(
+                          controller: nombre,
+                          decoration:
+                              const InputDecoration(labelText: "Nombre:"),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Este campo es obligatorio";
+                            }
+                          },
                         ),
+
+
                         const SizedBox(
                           height: 40,
                         ),
+
+                        //CAMPO EMAIL
                         TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: "E-mail:"),
+                          keyboardType: TextInputType.emailAddress,
                           controller: email,
-                          onChanged: (value) => {},
+                          decoration: const InputDecoration(labelText: "Email:"),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Este campo es obligatorio";
@@ -75,12 +85,30 @@ class _InicioState extends State<Inicio> {
                         const SizedBox(
                           height: 40,
                         ),
+
+
+                        //CAMPO CONTRASEÑA
                         TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: "Contraseña:"),
-                          onChanged: (value) => {},
+                          controller: passwrod,
+                          decoration: const InputDecoration(labelText: "Contraseña:"),
                           obscureText: true,
-                          controller: password,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Este campo es obligatorio";
+                            }
+                          },
+                        ),
+
+
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        //CAMPO CONFIRMAR CONTRASEÑA
+                        TextFormField(
+                          controller: writePasswrod,
+                          decoration: const InputDecoration(
+                              labelText: "Confirmar contraseña:"),
+                          obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Este campo es obligatorio";
@@ -90,13 +118,14 @@ class _InicioState extends State<Inicio> {
                         const SizedBox(
                           height: 40,
                         ),
-                        ElevatedButton(
+                        TextButton(
                             onPressed: () async {
-                              await userHttp.iniciarSesion(context,storage,email.text, password.text);
-                              String token = await storage.read(key: 'jwt') ?? '';
-                              print(token);
+                              if(passwrod.text == writePasswrod.text){
+                                User user = User(password: passwrod.text, correoElectronico: email.text, nombreUsuario: nombre.text, rolId: 1);
+                                userHttp.registrarse(context,user);
+                              }                           
                             },
-                            style: ElevatedButton.styleFrom(
+                            style: TextButton.styleFrom(
                                 backgroundColor: Colors.red,
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15),
@@ -106,7 +135,7 @@ class _InicioState extends State<Inicio> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const <Widget>[
                                 Text(
-                                  "Iniciar Sesión",
+                                  "Registrarse",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -117,18 +146,6 @@ class _InicioState extends State<Inicio> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text('¿No estas registrado?'),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('/register');
-                              },
-                              child: const Text("Registrarse"),
-                            )
-                          ],
-                        )
                       ],
                     ),
                   ),
@@ -141,4 +158,3 @@ class _InicioState extends State<Inicio> {
     );
   }
 }
-
