@@ -10,7 +10,7 @@ import 'package:stay/views/login.dart';
 import 'package:stay/views/register.dart';
 
 class AppRoutes {
-  static const initialRoute = '/HomeBar';
+  static const initialRoute = '/welcome';
   final int index;
   const AppRoutes({required this.index});
 
