@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:stay/views/HomeBar.dart';
+import 'package:stay/helpers/JwtService.dart';
+import 'package:stay/models/user.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:stay/viewsmodels/UserHttp.dart';
 
 class UpdateProfile extends StatefulWidget {
   const UpdateProfile({super.key});
@@ -11,11 +14,29 @@ class UpdateProfile extends StatefulWidget {
 
 class _UpdateProfileState extends State<UpdateProfile> {
   final _formKey = GlobalKey<FormState>();
+  final JwtService _jwtService = JwtService.getInstance();
   String _name = '';
   String _email = '';
   String _password = '';
+  final storage = const FlutterSecureStorage();
+  User? user;
 
+  @override
+  void initState() {
+    super.initState();
+    getTokenAndData();
+  }
 
+  void getTokenAndData() async {
+    String token = await storage.read(key: 'jwt') ?? '';
+    _jwtService.setToken(token);
+    Map<String, dynamic> payloadMap = _jwtService.getPayload();
+    setState(() {
+      user = _jwtService.getUser();
+    });
+  }
+
+  
 
 
   @override
@@ -43,7 +64,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       height: 120,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.asset('assets/images/Hoyos.jpg'))
+                          child: Image.network(user?.imagen ?? "assets/images/logoOficial.jpg"))
                   ),
                   Positioned(
                     bottom: 0,
@@ -65,7 +86,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
               Form(child: Column(
                 children: [
                   TextFormField(
-                    initialValue: "kfaldo0",
+                    initialValue: user?.nombreUsuario ?? "Juan",
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
                       prefixIconColor: Colors.black,
@@ -87,7 +108,10 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   ),
                   const SizedBox(height: 30),
                   TextFormField(
-                    initialValue: "hrosenkrantz0@patch.com",
+                    onTap: (){
+                      print("correo ${user?.correoElectronico}");
+                    },
+                    initialValue: user?.correoElectronico,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
                       prefixIconColor: Colors.black,
@@ -109,7 +133,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   ),
                   const SizedBox(height: 30),
                   TextFormField(
-                    initialValue: "BTm4tlW6abDW",
+                    obscureText: true,
+                    initialValue: user?.password ?? "",
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
                       prefixIconColor: Colors.black,
@@ -137,10 +162,14 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,side: BorderSide.none,shape: const StadiumBorder(),
                       ),
-                      onPressed:() {
+                      onPressed:() async {
+                        String token = await storage.read(key: 'jwt') ?? '';
+                        UserHttp userHttp = UserHttp();
+                        int id = user?.id ?? 0;
                         print('Nombre $_name');
                         print('Email $_email');
                         print('Password $_password');
+                        userHttp.actualizar(context,id,user!,_password,token);
                       }, child: const Text("Editar",style: TextStyle(color: Colors.black))
                     ),
                   ),
