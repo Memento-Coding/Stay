@@ -104,7 +104,9 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.red, actions: [
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.red, actions: [
         Padding(
             padding: const EdgeInsets.all(20),
             child: Row(

@@ -47,7 +47,7 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   flutter_geocoder: ^0.2.2-nullsafety
-  fluttertoast: any
+
 
 dev_dependencies:
 

@@ -36,150 +36,149 @@ class _UpdateProfileState extends State<UpdateProfile> {
     });
   }
 
-  
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          elevation: 0,
-          leading: IconButton(
-              onPressed: () {Navigator.pushNamed(context, "/HomeBar");}, icon: const Icon(LineAwesomeIcons.angle_left),color: Colors.black,),
-          title: const Text(
-            "Profile",
-            style: TextStyle(color: Colors.black),
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, "/HomeBar");
+          },
+          icon: const Icon(LineAwesomeIcons.angle_left),
+          color: Colors.black,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(100),
-            child: Column(children: [
-              Stack(
-                children: [
-                  SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(user?.imagen ?? "assets/images/logoOficial.jpg"))
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),color: Colors.amber),
-                      child: const Icon(
-                        LineAwesomeIcons.alternate_pencil,
-                        color: Colors.black,
-                        size: 20,
-                      ),
+        title: const Text(
+          "Profile",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(100),
+          child: Column(children: [
+            Stack(
+              children: [
+                SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset("assets/images/logoOficial.jpg"))),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    width: 35,
+                    height: 35,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.amber),
+                    child: const Icon(
+                      LineAwesomeIcons.alternate_pencil,
+                      color: Colors.black,
+                      size: 20,
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 50),
-              Form(child: Column(
-                children: [
-                  TextFormField(
-                    initialValue: user?.nombreUsuario ?? "Juan",
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 50),
+            Form(
+                child: Column(
+              children: [
+                TextFormField(
+                  initialValue: user?.nombreUsuario ?? "Juan",
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100)),
                       prefixIconColor: Colors.black,
-                      floatingLabelStyle: const TextStyle(color: Colors.deepPurple),
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.deepPurple),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: Colors.grey
-                        )
-                      ),
+                          borderSide: BorderSide(width: 2, color: Colors.grey)),
                       label: const Text("Username"),
-                      prefixIcon: const Icon(LineAwesomeIcons.user)
-                    ),
-                    onChanged: (value){
-                      setState(() {
-                        _name = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  TextFormField(
-                    onTap: (){
-                      print("correo ${user?.correoElectronico}");
-                    },
-                    initialValue: user?.correoElectronico,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
+                      prefixIcon: const Icon(LineAwesomeIcons.user)),
+                  onChanged: (value) {
+                    setState(() {
+                      _name = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  onTap: () {
+                    print("correo ${user?.correoElectronico}");
+                  },
+                  initialValue: user?.correoElectronico,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100)),
                       prefixIconColor: Colors.black,
-                      floatingLabelStyle: const TextStyle(color: Colors.deepPurple),
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.deepPurple),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: Colors.grey
-                        )
-                      ),
+                          borderSide: BorderSide(width: 2, color: Colors.grey)),
                       label: const Text("E-mail"),
-                      prefixIcon: const Icon(LineAwesomeIcons.envelope_1)
-                    ),
-                    onChanged: (value)=>{
-                      setState(() {
-                        _email = value;
-                      })
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  TextFormField(
-                    obscureText: true,
-                    initialValue: user?.password ?? "",
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(100)),
+                      prefixIcon: const Icon(LineAwesomeIcons.envelope_1)),
+                  onChanged: (value) => {
+                    setState(() {
+                      _email = value;
+                    })
+                  },
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  obscureText: true,
+                  initialValue: user?.password ?? "",
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100)),
                       prefixIconColor: Colors.black,
-                      floatingLabelStyle: const TextStyle(color: Colors.deepPurple),
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.deepPurple),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: Colors.grey
-                        )
-                      ),
+                          borderSide: BorderSide(width: 2, color: Colors.grey)),
                       label: const Text("Password"),
-                      prefixIcon: const Icon(LineAwesomeIcons.lock)
-                    ),
-                    onChanged: (value)=>{
-                      setState(() {
-                        _password = value;
-                      })
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
+                      prefixIcon: const Icon(LineAwesomeIcons.lock)),
+                  onChanged: (value) => {
+                    setState(() {
+                      _password = value;
+                    })
+                  },
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,side: BorderSide.none,shape: const StadiumBorder(),
+                        backgroundColor: Colors.amber,
+                        side: BorderSide.none,
+                        shape: const StadiumBorder(),
                       ),
-                      onPressed:() async {
+                      onPressed: () async {
                         String token = await storage.read(key: 'jwt') ?? '';
                         UserHttp userHttp = UserHttp();
                         int id = user?.id ?? 0;
                         print('Nombre $_name');
                         print('Email $_email');
                         print('Password $_password');
-                        userHttp.actualizar(context,id,user!,_password,token);
-                      }, child: const Text("Editar",style: TextStyle(color: Colors.black))
-                    ),
-                  ),
-                  const SizedBox(height: 30)
-                ],
-              ))
-            ]),
-          ),
+                        userHttp.actualizar(
+                            context, id, user!, _password, token);
+                      },
+                      child: const Text("Editar",
+                          style: TextStyle(color: Colors.black))),
+                ),
+                const SizedBox(height: 30)
+              ],
+            ))
+          ]),
         ),
-        //bottomNavigationBar: const HomeBar()
-      );
+      ),
+      //bottomNavigationBar: const HomeBar()
+    );
   }
 }

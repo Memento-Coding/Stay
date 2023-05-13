@@ -47,7 +47,7 @@ class _ProfileState extends State<Profile> {
               height: 200,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.network(user?.imagen ?? "assets/images/logoOficial.jpg")),
+                  child: Image.asset("assets/images/logoOficial.jpg")),
             ),
             const SizedBox(height: 10),
             Text(
