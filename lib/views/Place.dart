@@ -2,17 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stay/helpers/JwtService.dart';
 import 'package:stay/models/user.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:stay/models/Comentario.dart';
+import 'package:stay/viewsmodels/Comentario.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
 
 import 'package:stay/models/SitioTuristico.dart';
 
-void main() {
-  runApp(Place());
+class Place extends StatefulWidget {
+  const Place({super.key});
+
+  @override
+  State<Place> createState() => _PlaceState();
 }
 
-class Place extends StatelessWidget {
-  Place({Key? key}) : super(key: key);
+class _PlaceState extends State<Place> {
+  ComentarioHttp comentarioHttp = ComentarioHttp();
+  List<Comentario> ListaComentarios = [];
+
+  final storage = const FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    getComentario();
+  }
+
+  Future<void> getComentario() async {
+    List<Comentario> lista = [];
+    final url =
+        Uri.parse('https://stay-back-production.up.railway.app/v1/comentario');
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    final data = jsonDecode(response.body);
+    for (int i = 0; i < data.length; i++) {
+      lista.add(Comentario(
+          comentarioId: data[i]["comentario_id"],
+          descripcion: data[i]["descripcion"],
+          fechaPublicacion: data[i]["fecha_publicacion"],
+          sitioId: data[i]["sitio_id"],
+          userId: data[i]["user_id"]));
+    }
+    setState(() {
+      ListaComentarios = [...lista];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +65,11 @@ class Place extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.red,
         leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(Icons.arrow_back_ios),),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: ListView(
         children: <Widget>[
@@ -153,12 +196,143 @@ class Place extends StatelessWidget {
                               )
                             ],
                           ))),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: ListaComentarios.length,
+                          itemBuilder: (context, index) {
+                            final comentario = ListaComentarios[index];
+                            print(comentario);
+                            return RecomendadeEventCard(
+                              id: comentario.comentarioId,
+                              description: comentario.descripcion,
+                              date: comentario.fechaPublicacion,
+                              place: comentario.sitioId,
+                              user: comentario.userId,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
+
+class RecomendadeEventCard extends StatelessWidget {
+  const RecomendadeEventCard(
+      {Key? key,
+      required this.id,
+      required this.description,
+      required this.date,
+      required this.place,
+      required this.user})
+      : super(key: key);
+
+  final String date, description;
+  final int id, place, user;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: const EdgeInsets.only(left: 2, top: 2, bottom: 2.5),
+      width: size.width * 0.5,
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              padding: const EdgeInsets.all(2),
+              child: Column(
+                children: [
+                  Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          height: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15.0),
+                              topRight: Radius.circular(15.0),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                description,
+                                style: const TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 5.0),
+                              Text(
+                                date,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              const SizedBox(height: 5.0),
+                              Text(
+                                user.toString(),
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*class Place extends StatefulWidget {
+  Place({Key? key}) : super(key: key);
+
+  
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    final argumento =
+        ModalRoute.of(context)?.settings.arguments as SitioTuristico;
+    List<String> images = [argumento.foto];
+    return 
+  }
+}
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}*/
