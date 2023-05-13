@@ -55,7 +55,6 @@ class _BodyState extends State<Body> {
     setState(() {
       listaSitios = [...lista];
     });
-    print(listaSitios);
   }
 
   @override
@@ -131,7 +130,7 @@ class RecomendadeEventCard extends StatelessWidget {
               //SitioTuristico sitioTuristico = SitioTuristico(sitioTuristicoId: 1, nombre: title, descripcion: description, ubicacion: date, foto: "");
               Navigator.pushNamed(context, '/place',
                   arguments: SitioTuristico(
-                      sitioTuristicoId: 1,
+                      sitioTuristicoId: id,
                       nombre: title,
                       descripcion: description,
                       ubicacion: date,

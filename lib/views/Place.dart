@@ -51,6 +51,7 @@ class _PlaceState extends State<Place> {
           sitioId: data[i]["sitio_turistico_id"],
           userId: data[i]["usuario_id"]));
     }
+
     setState(() {
       ListaComentarios = [...lista];
     });
@@ -61,6 +62,10 @@ class _PlaceState extends State<Place> {
     final argumento =
         ModalRoute.of(context)?.settings.arguments as SitioTuristico;
     List<String> images = [argumento.foto];
+    print(argumento.sitioTuristicoId);
+    final array = ListaComentarios.where(
+            (element) => argumento.sitioTuristicoId == element.sitioId).toList()
+        as List<Comentario>;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -150,37 +155,12 @@ class _PlaceState extends State<Place> {
                                 ),
                               ),
                               SizedBox(
-                                height: 20,
-                              ),
-                              Center(
-                                child: Container(
-                                  child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red,
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 15),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: const <Widget>[
-                                          Text(
-                                            "¿Como llegar?",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25.0),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
                                 height: 30,
                               ),
+                              Form(
+                                  child: Column(
+                                children: <Widget>[],
+                              )),
                               Center(
                                 child: Container(
                                   child: const TextField(
@@ -193,7 +173,29 @@ class _PlaceState extends State<Place> {
                                         fillColor: Colors.white),
                                   ),
                                 ),
-                              )
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Center(
+                                child: Container(
+                                  child: ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                          padding: const EdgeInsets.all(15),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                      child: Text(
+                                        "Comentar",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25.0),
+                                      )),
+                                ),
+                              ),
                             ],
                           ))),
                   SingleChildScrollView(
@@ -202,18 +204,18 @@ class _PlaceState extends State<Place> {
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: ListaComentarios.length,
+                          itemCount: array.length,
                           itemBuilder: (context, index) {
-                            final comentario = ListaComentarios[index];
-                              return RecomendadeEventCard(
+                            print(array);
+                            final comentario = array[index];
+
+                            return RecomendadeEventCard(
                               id: comentario.comentarioId,
                               description: comentario.descripcion,
                               date: comentario.fechaPublicacion,
                               place: comentario.sitioId,
                               user: comentario.userId,
                             );
-                            
-                            
                           },
                         ),
                       ],
@@ -287,7 +289,10 @@ class RecomendadeEventCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 5.0),
                               Text(
-                                date,
+                                "Publicado el " +
+                                    date.split('T')[0] +
+                                    " Hora " +
+                                    date.split('T')[1].split('.')[0],
                                 style: const TextStyle(
                                   fontSize: 16.0,
                                 ),
