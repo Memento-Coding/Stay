@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stay/helpers/JwtService.dart';
 import 'package:stay/models/user.dart';
-
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:stay/viewsmodels/UserHttp.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -14,23 +14,28 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final JwtService _jwtService = JwtService.getInstance();
-  String _payload = '';
+  final storage = const FlutterSecureStorage();
   User? user;
 
   @override
   void initState() {
     super.initState();
-    // Obtener la información del payload cuando se carga la pantalla
-    _jwtService.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxOSwicm9sX2lkIjo0LCJub21icmUiOiJzb3llbEFkbWluIiwiY29ycmVvX2VsZWN0cm9uaWNvIjoic3VqZXRvYWRtaW5pc3RyYWRvckBnbWFpbC5jb20iLCJmb3RvIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZG1ieWl6emNkL2ltYWdlL3VwbG9hZC92MTY4Mzk0ODkyOS9yaDNsanlzeHdheTRtdnpnbGJwei5qcGciLCJpYXQiOjE2ODM5ODQxNDQsImV4cCI6MTY4NDAwNTc0NH0.odzwtq6ZJCsWh8oyRbIvOBzQEk6TkvxcyxmhCdPSyLk');
+    getTokenAndData();
+  }
+
+  void getTokenAndData() async {
+    String token = await storage.read(key: 'jwt') ?? '';
+    print(token);
+    _jwtService.setToken(token);
     Map<String, dynamic> payloadMap = _jwtService.getPayload();
     setState(() {
       user = _jwtService.getUser();
     });
-    print(user?.correoElectronico);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(user?.imagen);
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
@@ -38,11 +43,11 @@ class _ProfileState extends State<Profile> {
         child: Column(
           children: [
             SizedBox(
-              width: 120,
-              height: 120,
+              width: 150,
+              height: 200,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.asset('assets/images/Hoyos.jpg')),
+                  child: Image.network(user?.imagen ?? "assets/images/logoOficial.jpg")),
             ),
             const SizedBox(height: 10),
             Text(
@@ -66,18 +71,8 @@ class _ProfileState extends State<Profile> {
                       shape: const StadiumBorder()),
                   child: const Text("Editar",
                       style: TextStyle(color: Colors.black)),
-                )
-            ),
+                )),
             const SizedBox(height: 30),
-            const Divider(),
-            const SizedBox(height: 10),
-
-            //Menu Opciones
-            ProfileMenuWidget(
-              title: "Information",
-              icon: LineAwesomeIcons.info,
-              onPress: (){},
-            ),
             const Divider(),
             const SizedBox(height: 10),
             ProfileMenuWidget(
@@ -85,9 +80,13 @@ class _ProfileState extends State<Profile> {
               icon: LineAwesomeIcons.alternate_sign_out,
               endIcon: false,
               onPress: () {
+                UserHttp userHttp = UserHttp();
+                userHttp.salir(user!);
                 Navigator.popAndPushNamed(context, "/login");
               },
             ),
+            const Divider(),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -119,9 +118,9 @@ class ProfileMenuWidget extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: Colors.blue.withOpacity(0.1),
+          color: Colors.grey.withOpacity(0.1),
         ),
-        child: Icon(icon, color: Colors.purple),
+        child: Icon(icon, color: Colors.red),
       ),
       title: Text(
         title,
