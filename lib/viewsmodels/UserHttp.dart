@@ -27,7 +27,7 @@ class UserHttp {
     Map<String, dynamic> map = Map<String, dynamic>.from(jsonDecode(response.body));
     final token = map["token"];
     if (response.statusCode == 200) {
-      await storage.write(key: 'jwt', value: token);
+      await storage.write(key: 'jwt', value: token ?? " ");
       Navigator.of(context).popAndPushNamed("/HomeBar");
     }else if(response.statusCode == 401){
       msge.mostrarMensaje(context, "Inicio de sesión fallido", "El email o la contraseña son incorrectos.");
@@ -42,7 +42,8 @@ class UserHttp {
     }
   }
 
-  Future<void> registrarse(User user) async {
+  Future<void> registrarse(BuildContext context, User user) async {
+    Message msge = Message();
     final url =
         Uri.parse('https://stay-back-production.up.railway.app/v1/user');
     final response = await http.post(url,
@@ -59,6 +60,12 @@ class UserHttp {
         ));
     final data = jsonDecode(response.body);
     print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      msge.mostrarMensaje(context, "Registro Exitoso", "Es hora de disfrutar Stay 😁😎");
+      Navigator.of(context).popAndPushNamed("/login");
+    }
+
     if (response.statusCode == 200) {
       print('Los datos se enviaron correctamente');
     } else {
