@@ -23,25 +23,22 @@ class _HomeBarState extends State<HomeBar> {
     return Scaffold(
       body: AppRoutes(index: _selectedIndex).miPages(),
       bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 20),
-          child: GNav(
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
-            gap: 8,
-            padding: const EdgeInsets.all(16),
-            tabs: const [
-              GButton(icon: Icons.home,text: 'Home',),
-              //GButton(icon: Icons.favorite_border,text: 'Like',),
-              GButton(icon: Icons.person,text: 'Profile',)
-            ],
-            onTabChange: (index){
-              _onItemTapped(index);
-            },
-          ),
+        color: Colors.grey[200],
+        child: GNav(
+          backgroundColor: Colors.transparent,
+          color: Colors.red,
+          activeColor: Colors.white,
+          tabBackgroundColor: Colors.grey.shade800,
+          gap: 8,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          tabs: const [
+            GButton(icon: Icons.home,text: 'Home',),
+            //GButton(icon: Icons.favorite_border,text: 'Like',),
+            GButton(icon: Icons.person,text: 'Profile',)
+          ],
+          onTabChange: (index){
+            _onItemTapped(index);
+          },
         ),
       ),
     );
